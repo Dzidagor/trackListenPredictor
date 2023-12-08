@@ -39,4 +39,4 @@ def filter_data(df, track_json):
 filtered_data = filter_data(combined_df, track_info)
 
 # Сохранение отфильтрованных данных в новый Excel-файл
-filtered_data.to_excel('../processed/filtered_data.xlsx', index=False)
+filtered_data.to_excel('../../data/processed/filtered_data.xlsx', index=False)
