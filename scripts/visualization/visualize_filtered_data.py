@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Загрузка данных
-df = pd.read_excel('filtered_data.xlsx')
+df = pd.read_excel('../../data/processed/filtered_data.xlsx')
 
 # Преобразование даты в формат datetime
 df['Дата'] = pd.to_datetime(df['Дата'], format='%d-%m-%Y')
@@ -19,21 +19,27 @@ grouped_data = df.groupby(['UPC', 'Дни с релиза'])['Все просл�
 
 # Настройки визуализации
 sns.set(style="whitegrid")
-plt.figure(figsize=(15, 10))
+fig, ax = plt.subplots(figsize=(15, 10))
+
+# Перемещение осей
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
 
 # Создание графиков для каждого трека
 for upc in grouped_data['UPC'].unique():
     track_data = grouped_data[grouped_data['UPC'] == upc]
-    plt.plot(track_data['Дни с релиза'], track_data['Все прослушивания'], label=upc)
+    ax.plot(track_data['Дни с релиза'], track_data['Все прослушивания'])
 
 # Настройка легенды и осей
-plt.legend()
-plt.xlabel('Дни с момента релиза')
-plt.ylabel('Все прослушивания')
-plt.title('Графики прослушиваний треков по дням с момента релиза')
-plt.xticks(range(0, 31, 1))
-plt.tight_layout()
+ax.set_xlabel('Дни с момента релиза')
+ax.set_ylabel('Все прослушивания')
+ax.set_title('Графики прослушиваний треков по дням с момента релиза')
+ax.set_xticks(range(0, 31, 1))
 
 # Сохранение графика в файл
-plt.savefig('tracks_listening_graph.png')
+plt.savefig('../../results/figures/filtered_data.png')
 plt.show()

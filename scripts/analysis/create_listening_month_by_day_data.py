@@ -1,9 +1,7 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 # Загрузка данных
-df = pd.read_excel('filtered_data.xlsx')
+import pandas as pd
+
+df = pd.read_excel('../../data/processed/filtered_data.xlsx')
 
 # Преобразование даты в формат datetime
 df['Дата'] = pd.to_datetime(df['Дата'], format='%d-%m-%Y')
@@ -21,18 +19,5 @@ listening_data = pd.DataFrame({
     'Первый месяц': first_month_listening
 }).reset_index()
 
-# Настройки визуализации
-sns.set(style="whitegrid")
-plt.figure(figsize=(10, 6))
-
-# Создание графика
-sns.scatterplot(x='Первый день', y='Первый месяц', data=listening_data)
-
-# Настройка легенды и осей
-plt.xlabel('Прослушивания за первый день')
-plt.ylabel('Прослушивания за первый месяц')
-plt.title('Соотношение прослушиваний за первый день и первый месяц')
-
-# Сохранение графика в файл
-plt.savefig('day_month_listening_comparison.png')
-plt.show()
+listening_data['UPC'] = listening_data['UPC'].astype(str)
+listening_data.to_excel('../../data/processed/listening_month_by_day_data.xlsx', index=False)
